@@ -465,7 +465,7 @@ const SkillsSection = () => {
         {skills.map((skill, i) => (
           <motion.div
             whileHover={{ y: -6 }}
-            className="p-6 bg-[#0a0a0a] border border-white/10 rounded-2xl text-center 
+            className="p-6 bg-[#0a0a0a] border border-accent rounded-2xl text-center 
                         group hover:border-accent transition-all duration-300 
                         hover:shadow-[0_0_25px_rgba(154,20,18,0.4)] overflow-hidden flex flex-col items-center justify-center"
           >
