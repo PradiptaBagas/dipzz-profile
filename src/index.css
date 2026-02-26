@@ -1,0 +1,11 @@
+@import "tailwindcss"; 
+
+@layer base { html { scroll-behavior: smooth; } 
+
+body { 
+  @apply bg-black text-slate-100 antialiased; 
+  } 
+} 
+
+@theme { 
+  --color-accent: #9A1412; }
