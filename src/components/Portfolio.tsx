@@ -172,7 +172,7 @@ const HomeSection = () => (
     >
       <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-accent shadow-[0_0_30px_rgba(#9A1412)]">
         <img 
-          src="/src/assets/profile.png" 
+          src="/profile.png" 
           alt="Profile" 
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
@@ -246,7 +246,7 @@ const ProjectsSection = () => {
       title: "Shade Official (Soon Pre Launch)", 
       desc: "Experimental Poster Art and Apparel Brand Store by Shade.", 
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
-      image: "/src/assets/shade.jpg",
+      image: "/shade.jpg",
       link: "#"
     },
     { 
@@ -260,14 +260,14 @@ const ProjectsSection = () => {
       title: "Eltibiz Palangkaraya", 
       desc: "Eltibiz itself is an educational institution in palangkaraya.", 
       tags: ["HTML", "CSS", "JS"],
-      image: "/src/assets/eltibiz.jpg",
+      image: "/eltibiz.jpg",
       link: "https://eltibiz.com/"
     },
     { 
       title: "Dashboard Pidsus (Privacy)", 
       desc: "monitoring dashboard for the special criminal division of the Malang District Attorney's Office.", 
       tags: ["HTML", "CSS","PHP","SQL"],
-      image: "/src/assets/pidsus.jpg",
+      image: "/pidsus.jpg",
       link: "#"
     },
   ];
@@ -396,7 +396,7 @@ const EducationSection = () => (
       >
         <div className="w-72 h-72 md:w-80 md:h-80 rounded-xl overflow-hidden border-4 border-accent shadow-[0_0_30px_rgba(154,20,18,0.6)]">
           <img
-            src="/src/assets/educationfoto.jpg"
+            src="/educationfoto.jpg"
             alt="Education"
             className="w-full h-full object-cover"
           />
