@@ -220,7 +220,7 @@ const HomeSection = () => (
         className="flex flex-wrap gap-4 justify-center md:justify-start"
       >
         <a
-          href="/public/CV-PradiptaBagasYegantara-English.pdf"
+          href="/CV-PradiptaBagasYegantara-English.pdf"
           download="Pradipta-Bagas-CV.pdf"
           className="inline-flex px-8 py-3 bg-accent cursor-pointer
                     hover:bg-red-700 text-white rounded-full font-semibold
