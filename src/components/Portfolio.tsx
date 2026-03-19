@@ -253,7 +253,7 @@ const ProjectsSection = () => {
       title: "Shadeart", 
       desc: "Gallery Poster by Shade.", 
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
-      image: "/shadeart.png",
+      image: "/public/shadeart.jpg",
       link: "https://shadeart.vercel.app/"
     },
     { 
