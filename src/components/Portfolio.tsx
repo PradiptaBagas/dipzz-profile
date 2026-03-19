@@ -250,11 +250,11 @@ const ProjectsSection = () => {
       link: "#"
     },
     { 
-      title: "Gallery WaktuAnalisa", 
-      desc: "Gallery Analytic Market Crypto/Forex.", 
-      tags: ["TypeScript", "D3.js", "Vite"],
-      image: "/assets/projects/project2.png",
-      link: "#"
+      title: "Shadeart", 
+      desc: "Gallery Poster by Shade.", 
+      tags: ["React", "Tailwind", "TypeScript", "Vite"],
+      image: "/shadeart",
+      link: "https://shadeart.vercel.app/"
     },
     { 
       title: "Eltibiz Palangkaraya", 
