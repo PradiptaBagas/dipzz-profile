@@ -221,7 +221,7 @@ const HomeSection = () => (
       >
         <a
           href="/CV-Pradipta-English.pdf"
-          download="Pradipta-Bagas-CV.pdf"
+          download="CV-Pradipta-Bagas.pdf"
           className="inline-flex px-8 py-3 bg-accent cursor-pointer
                     hover:bg-red-700 text-white rounded-full font-semibold
                     transition-all shadow-lg shadow-accent/20
