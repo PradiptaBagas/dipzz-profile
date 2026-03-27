@@ -220,7 +220,7 @@ const HomeSection = () => (
         className="flex flex-wrap gap-4 justify-center md:justify-start"
       >
         <a
-          href="/CV-Pradipta-English.pdf"
+          href="/CV-Pradiptaa.pdf"
           download="CV-Pradipta-Bagas.pdf"
           className="inline-flex px-8 py-3 bg-accent cursor-pointer
                     hover:bg-red-700 text-white rounded-full font-semibold
@@ -297,7 +297,7 @@ const ProjectsSection = () => {
                   className="w-full h-full" //object-cover group-hover:scale-110 transition-transform duration-500 
                   onError={(e) => {
                     // Fallback jika file di public tidak ditemukan
-                    e.currentTarget.src = "https://picsum.photos/800/450";
+                    e.currentTarget.src = "";
                   }}
                 />
               </div>
