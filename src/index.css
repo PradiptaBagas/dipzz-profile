@@ -2,9 +2,29 @@
 
 @layer base { html { scroll-behavior: smooth; } 
 
-body { 
-  @apply bg-black text-slate-100 antialiased; 
-  } 
+/* Hilangkan scrollbar bawaan di body agar web tidak bisa di-scroll keluar window */
+body {
+  overflow: hidden;
+}
+
+/* Custom Scrollbar Minimalis ala macOS untuk Area Konten Finder */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1); 
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25); 
+}
 } 
 
 @theme { 
