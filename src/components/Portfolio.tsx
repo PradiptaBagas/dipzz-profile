@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Github,
   Instagram,
@@ -12,9 +12,8 @@ import {
   FileText,
   ChevronUp,
   MapPin,
-  Phone,
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { MoreVertical } from "lucide-react";
 import { FaReact, FaGitAlt, FaHtml5 } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss, SiJavascript } from "react-icons/si";
@@ -183,93 +182,70 @@ const HomeSection = () => {
         </motion.a>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="relative z-10 flex-1 flex flex-col md:flex-row items-end md:items-end justify-between px-8 md:px-14 pb-28 gap-8">
-        {/* LEFT — Big name + role */}
-        <div className="flex-1">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-[#f0a060] font-bold tracking-widest text-sm uppercase mb-3"
-            style={{ fontFamily: "'Syne', sans-serif" }}
-          >
-            Front-End Developer
-          </motion.p>
+      {/* PHOTO — right side, full height, flush to edge */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.9 }}
+        className="absolute right-0 top-0 bottom-0 z-0 hidden md:block"
+        style={{ width: "40%" }}
+      >
+        <img
+          src="/profile.png"
+          alt="Pradipta Bagas"
+          className="w-full h-full object-cover object-top"
+          style={{ filter: "brightness(0.7) contrast(1.1)" }}
+        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #000 0%, transparent 35%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, transparent 25%)" }} />
+        <div className="absolute inset-0 opacity-20" style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(180,80,10,0.8), transparent 60%)" }} />
+      </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-white font-black leading-none mb-6"
-            style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(3.5rem, 10vw, 8rem)",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            Pradipta
-            <br />
-            Bagas
-          </motion.h1>
-
-          {/* CONTACT ROW */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/60"
-          >
-            <a
-              href="mailto:pradiptabagas509@gmail.com"
-              className="flex items-center gap-2 hover:text-[#f0a060] transition-colors"
-            >
-              <Mail size={13} />
-              pradiptabagas509@gmail.com
-            </a>
-            <a
-              href="https://www.linkedin.com/in/pradiptabagas/"
-              target="_blank"
-              className="flex items-center gap-2 hover:text-[#f0a060] transition-colors"
-            >
-              <Linkedin size={13} />
-              linkedin.com/in/pradiptabagas
-            </a>
-            <span className="flex items-center gap-2">
-              <MapPin size={13} />
-              Indonesia
-            </span>
-          </motion.div>
-        </div>
-
-        {/* RIGHT — Profile image (dark, dramatic) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="relative shrink-0 self-end"
+      {/* LEFT TEXT — vertically centered */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-14 pb-28 pt-4 md:max-w-[60%]">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-[#f0a060] font-bold tracking-widest text-sm uppercase mb-4"
+          style={{ fontFamily: "'Syne', sans-serif" }}
         >
-          <div
-            className="w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden"
-            style={{
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow:
-                "0 0 80px rgba(180,80,10,0.25), 0 0 0 1px rgba(255,255,255,0.04)",
-            }}
-          >
-            <img
-              src="/profile.png"
-              alt="Pradipta Bagas"
-              className="w-full h-full object-cover"
-              style={{ filter: "brightness(0.85) contrast(1.05)" }}
-            />
-          </div>
-          {/* warm glow behind image */}
-          <div
-            className="absolute -inset-4 -z-10 rounded-3xl blur-2xl opacity-30"
-            style={{ background: "radial-gradient(circle, #b44c0a, transparent 70%)" }}
-          />
+          Front-End Developer
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="text-white font-black leading-none mb-8"
+          style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(3.5rem, 9vw, 8rem)", letterSpacing: "-0.03em" }}
+        >
+          Pradipta
+          <br />
+          Bagas
+        </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="flex flex-col gap-3 text-sm text-white/60"
+        >
+          <a href="mailto:pradiptabagas509@gmail.com" className="flex items-center gap-2 hover:text-[#f0a060] transition-colors w-fit">
+            <Mail size={13} />pradiptabagas509@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/pradiptabagas/" target="_blank" className="flex items-center gap-2 hover:text-[#f0a060] transition-colors w-fit">
+            <Linkedin size={13} />linkedin.com/in/pradiptabagas
+          </a>
+          <span className="flex items-center gap-2"><MapPin size={13} />Indonesia</span>
         </motion.div>
+      </div>
+
+      {/* Mobile photo */}
+      <div className="md:hidden relative z-10 px-8 pb-6">
+        <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          <img src="/profile.png" alt="Pradipta Bagas" className="w-full h-full object-cover" style={{ filter: "brightness(0.8)" }} />
+        </div>
       </div>
 
       {/* Scroll hint */}
@@ -286,97 +262,166 @@ const HomeSection = () => {
   );
 };
 
-// ===== PROJECTS SECTION =====
+// ===== PROJECTS SECTION — horizontal carousel, movie poster style =====
 const ProjectsSection = () => {
   const projects = [
     {
-      title: "Shade Official (Soon Pre Launch)",
-      desc: "Experimental Poster Art and Apparel Brand Store by Shade.",
+      title: "Shade Official",
+      subtitle: "Soon Pre Launch",
+      desc: "Experimental Poster Art and Apparel Brand Store.",
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
       image: "/shade.jpg",
       link: "#",
+      year: "2024",
     },
     {
       title: "Shadeart",
-      desc: "Gallery Poster by Shade.",
+      subtitle: "Gallery App",
+      desc: "Gallery Poster by Shade. Browse and explore original artwork.",
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
       image: "/artshade.png",
       link: "https://shadeart.vercel.app/",
+      year: "2024",
     },
     {
-      title: "Eltibiz Palangkaraya",
-      desc: "Educational institution website in Palangkaraya.",
+      title: "Eltibiz",
+      subtitle: "Palangkaraya",
+      desc: "Website for an educational institution in Palangkaraya.",
       tags: ["HTML", "CSS", "JS"],
       image: "/eltibiz.jpg",
       link: "https://eltibiz.com/",
+      year: "2024",
     },
     {
-      title: "Dashboard Pidsus (Private)",
-      desc: "Monitoring dashboard for the special criminal division of the Malang District Attorney's Office.",
+      title: "Dashboard Pidsus",
+      subtitle: "Private Project",
+      desc: "Case monitoring dashboard for the Malang District Attorney's Office.",
       tags: ["HTML", "CSS", "PHP", "SQL"],
       image: "/pidsus.jpg",
       link: "#",
+      year: "2024",
     },
   ];
 
+  const [activeIndex, setActiveIndex] = React.useState(1);
+
   return (
-    <section id="projects" className="py-20 bg-black">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="projects" className="py-20 bg-black overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 mb-10">
         <SectionHeading>Projects</SectionHeading>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, i) => (
+      </div>
+
+      {/* CAROUSEL */}
+      <div className="relative flex items-center justify-center" style={{ height: "460px" }}>
+        {projects.map((project, i) => {
+          const offset = i - activeIndex;
+          const isActive = i === activeIndex;
+          const isAdjacent = Math.abs(offset) === 1;
+          const isFar = Math.abs(offset) >= 2;
+
+          return (
             <motion.div
-              onClick={() => window.open(project.link, "_blank")}
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -4 }}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer"
-              style={{
-                background: "rgba(15,15,15,0.9)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                boxShadow: "0 0 0 0 rgba(154,20,18,0)",
-                transition: "box-shadow 0.3s",
+              onClick={() => {
+                if (isActive) {
+                  if (project.link !== "#") window.open(project.link, "_blank");
+                } else {
+                  setActiveIndex(i);
+                }
               }}
+              animate={{
+                scale: isActive ? 1 : isAdjacent ? 0.82 : 0.68,
+                x: offset * (isActive ? 0 : isAdjacent ? 260 : 480),
+                opacity: isFar ? 0.3 : isAdjacent ? 0.65 : 1,
+                zIndex: isActive ? 10 : isAdjacent ? 5 : 1,
+              }}
+              transition={{ type: "spring", stiffness: 260, damping: 28 }}
+              className="absolute cursor-pointer select-none"
+              style={{ width: "260px", height: "400px" }}
             >
-              <div className="aspect-video overflow-hidden">
+              <div
+                className="relative w-full h-full rounded-2xl overflow-hidden"
+                style={{
+                  border: isActive ? "1px solid rgba(154,20,18,0.6)" : "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: isActive
+                    ? "0 30px 80px rgba(0,0,0,0.8), 0 0 40px rgba(154,20,18,0.3)"
+                    : "0 10px 30px rgba(0,0,0,0.5)",
+                }}
+              >
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ filter: isActive ? "brightness(0.75)" : "brightness(0.45)" }}
                 />
-              </div>
-              <div className="p-5">
-                <h3
-                  className="text-lg font-bold mb-1 text-white group-hover:text-[#f0a060] transition-colors"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
-                >
-                  {project.title}
-                </h3>
-                <p className="text-sm text-white/50 mb-4 leading-relaxed">
-                  {project.desc}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 100%)" }}
+                />
+
+                {isActive && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-4 left-4 right-4 flex items-center justify-between"
+                  >
                     <span
-                      key={tag}
-                      className="text-[10px] font-bold px-2.5 py-1 rounded-md tracking-widest uppercase"
-                      style={{
-                        background: "rgba(154,20,18,0.15)",
-                        border: "1px solid rgba(154,20,18,0.3)",
-                        color: "#f0a060",
-                      }}
+                      className="text-[10px] font-black tracking-widest uppercase px-2 py-1 rounded-md"
+                      style={{ background: "rgba(154,20,18,0.9)", color: "#fff" }}
                     >
-                      {tag}
+                      {project.tags[0]}
                     </span>
-                  ))}
+                    <span className="text-[11px] font-bold text-white/50">{project.year}</span>
+                  </motion.div>
+                )}
+
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="text-[10px] font-bold tracking-widest uppercase text-[#f0a060] mb-1">
+                    {project.subtitle}
+                  </p>
+                  <h3
+                    className="text-white font-black leading-tight mb-2"
+                    style={{ fontFamily: "'Syne', sans-serif", fontSize: isActive ? "1.25rem" : "1rem" }}
+                  >
+                    {project.title}
+                  </h3>
+                  {isActive && (
+                    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                      <p className="text-white/50 text-xs leading-relaxed mb-3">{project.desc}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.tags.slice(1).map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-[9px] font-bold px-2 py-0.5 rounded tracking-widest uppercase"
+                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.6)" }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               </div>
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
+      </div>
+
+      {/* Dots navigation */}
+      <div className="flex justify-center gap-2 mt-8">
+        {projects.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className="rounded-full transition-all duration-300"
+            style={{
+              width: i === activeIndex ? "24px" : "8px",
+              height: "8px",
+              background: i === activeIndex ? "#9A1412" : "rgba(255,255,255,0.2)",
+            }}
+          />
+        ))}
       </div>
     </section>
   );
