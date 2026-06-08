@@ -191,7 +191,7 @@ const HomeSection = () => {
         style={{ width: "40%" }}
       >
         <img
-          src="/profile.png"
+          src="/profile1.png"
           alt="Pradipta Bagas"
           className="w-full h-full object-cover object-top"
           style={{ filter: "brightness(0.7) contrast(1.1)" }}
@@ -244,7 +244,7 @@ const HomeSection = () => {
       {/* Mobile photo */}
       <div className="md:hidden relative z-10 px-8 pb-6">
         <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-          <img src="/profile.png" alt="Pradipta Bagas" className="w-full h-full object-cover" style={{ filter: "brightness(0.8)" }} />
+          <img src="/profile1.png" alt="Pradipta Bagas" className="w-full h-full object-cover" style={{ filter: "brightness(0.8)" }} />
         </div>
       </div>
 
