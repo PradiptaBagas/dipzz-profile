@@ -202,7 +202,7 @@ const HomeSection = () => {
       </div>
 
       {/* Main Content: Ditambahkan items-center & text-center untuk mobile agar simetris */}
-      <div className="relative z-20 flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left px-2 md:px-14 pb-24 pt-4 md:pb-28 md:max-w-[65%]">
+      <div className="relative z-20 flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left px-4 md:px-14 pb-24 pt-4 md:pb-28 md:max-w-[65%]">
         
         {/* Front-End Developer */}
         <p className="text-white font-bold md:text-[#9A1412] tracking-widest text-xs md:text-sm uppercase mb-3 md:mb-4" style={{ fontFamily: "'Syne', sans-serif" }}>
