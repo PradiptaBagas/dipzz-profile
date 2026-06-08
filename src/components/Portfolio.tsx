@@ -1,285 +1,330 @@
-import React, { useState, useEffect } from "react";
-import { Github, Instagram, Linkedin, Mail, Home, GraduationCap, Briefcase, Code2, User, FileText, ChevronUp } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  Home,
+  GraduationCap,
+  Briefcase,
+  Code2,
+  User,
+  FileText,
+  ChevronUp,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { MoreVertical } from "lucide-react";
 import { FaReact, FaGitAlt, FaHtml5 } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss, SiJavascript } from "react-icons/si";
 import { MdDesignServices } from "react-icons/md";
 
-const Navbar = () => {
+// ===== DOCK NAVBAR (macOS style) =====
+const Dock = () => {
   const menuItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "projects", label: "Projects", icon: Briefcase },
     { id: "education", label: "Education", icon: GraduationCap },
-    { id: "experience", label: "Experience", icon: FileText },
     { id: "skills", label: "Skills", icon: Code2 },
     { id: "about", label: "About", icon: User },
   ];
 
-  const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState("home");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-
-      const scrollPercent = (scrollTop / docHeight) * 100;
-
-      setProgress(scrollPercent);
-      setScrolled(scrollTop > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleClick = (id: string) => {
+    setActiveId(id);
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <>
-      {/* ===== SCROLL PROGRESS BAR ===== */}
-      <div className="fixed top-0 left-0 w-full h-1 z-[999]">
-        <div
-          className="h-full bg-accent transition-all duration-150"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      {/* ===== NAVBAR ===== */}
-      <AnimatePresence>
-        {!scrolled && (
-          <motion.header
-            initial={{ y: 0, opacity: 1 }}
-            exit={{ y: -80, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-black/80 border-b border-accent/40"
-          >
-            <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-
-              {/* LEFT */}
-              <div className="hidden md:flex w-32 items-center">
-                <span className="hidden md:block text-lg font-bold tracking-wide">
-                  dipzz<span className="text-accent">jp</span>
-                </span>
-              </div>
-
-              {/* CENTER */}
-              <nav className="hidden md:flex items-center justify-center gap-10">
-                {menuItems.map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className="flex items-center gap-2 text-white hover:text-accent transition font-medium"
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[999]">
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 200, damping: 20 }}
+        className="flex items-end gap-2 px-4 py-3 rounded-2xl"
+        style={{
+          background: "rgba(15, 15, 15, 0.75)",
+          backdropFilter: "blur(24px)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.04) inset",
+        }}
+      >
+        {menuItems.map((item) => {
+          const isHovered = hoveredId === item.id;
+          const isActive = activeId === item.id;
+          return (
+            <div key={item.id} className="relative flex flex-col items-center">
+              {/* Tooltip */}
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.span
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    className="absolute -top-9 text-[11px] font-semibold bg-black/80 text-white px-2 py-1 rounded-lg whitespace-nowrap border border-white/10"
                   >
-                    <item.icon size={16} />
                     {item.label}
-                  </a>
-                ))}
-              </nav>
+                  </motion.span>
+                )}
+              </AnimatePresence>
 
-              <div className="hidden md:flex items-center">
-                <a
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com"
-                  target="_blank"
-                  className="inline-block px-5 py-1.5 text-sm border border-accent 
-                            rounded-full text-whitefont-semibold 
-                            transition-all duration-300
-                            hover:bg-accent hover:text-white 
-                            hover:shadow-[0_0_20px_rgba(154,20,18,0.6)]"
-                >
-                  Let’s Collaborate
-                </a>
-              </div>
-
-              {/* MOBILE */}
-            <div className="md:hidden relative flex items-center justify-between w-full">
-              
-              {/* LEFT — MENU */}
-              <button
-                onClick={() => setOpen(!open)}
-                className="p-2 rounded-full hover:bg-white/10"
+              <motion.button
+                onClick={() => handleClick(item.id)}
+                onHoverStart={() => setHoveredId(item.id)}
+                onHoverEnd={() => setHoveredId(null)}
+                animate={{
+                  scale: isHovered ? 1.35 : 1,
+                  y: isHovered ? -8 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="relative w-12 h-12 rounded-xl flex items-center justify-center"
+                style={{
+                  background: isActive
+                    ? "rgba(154, 20, 18, 0.85)"
+                    : "rgba(40, 40, 40, 0.8)",
+                  border: isActive
+                    ? "1px solid rgba(154,20,18,0.6)"
+                    : "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: isActive
+                    ? "0 0 20px rgba(154,20,18,0.4)"
+                    : "none",
+                }}
               >
-                <MoreVertical size={22} />
-              </button>
+                <item.icon size={20} color={isActive ? "#fff" : "#aaa"} />
+              </motion.button>
 
-              {/* CENTER — TITLE */}
-              <span className="absolute left-1/2 -translate-x-1/2 text-sm font-semibold tracking-widest">
-                dipzz<span className="text-accent">jp</span>
-              </span>
-
-              {/* RIGHT — CTA */}
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com"
-                target="_blank"
-                className="px-4 py-1.5 text-xs border border-accent rounded-full text-white
-                          hover:bg-red-700 transition"
-              >
-                hire me
-              </a>
+              {/* Active dot */}
+              {isActive && (
+                <motion.div
+                  layoutId="dock-dot"
+                  className="w-1 h-1 bg-white rounded-full mt-1"
+                />
+              )}
             </div>
-            </div>
-          </motion.header>
-        )}
-      </AnimatePresence>
-
-      {/* ===== MOBILE MENU ===== */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed top-14 left-4 z-[999] w-52 bg-black border border-accent rounded-xl overflow-hidden"
-          >
-            {menuItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-accent"
-              >
-                <item.icon size={18} />
-                {item.label}
-              </a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 };
 
+// ===== SECTION HEADING =====
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
-  <motion.h2 
+  <motion.h2
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-4"
+    style={{ fontFamily: "'Syne', sans-serif" }}
   >
-    <span className="text-accent">&gt;&gt;</span> {children}
+    <span className="text-[#9A1412]">&gt;&gt;</span> {children}
   </motion.h2>
 );
 
-const HomeSection = () => (
-  <section id="home" className="h-fit flex flex-col md:flex-row items-center justify-center gap-8 py-10 pt-3 md:pt-24">
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative"
+// ===== HOME SECTION (Tyrone Brooks inspired) =====
+const HomeSection = () => {
+  return (
+    <section
+      id="home"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black"
     >
-      <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-accent shadow-[0_0_30px_rgba(#9A1412)]">
-        <img 
-          src="/profile.png" 
-          alt="Profile" 
-          className="w-full h-full object-cover"
-          referrerPolicy="no-referrer"
-        />
-      </div>
-      <div className="absolute -inset-4 border border-accent/30 rounded-full animate-pulse" />
-    </motion.div>
-    
-    <div className="text-center md:text-left max-w-xl">
-      <motion.span 
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="text-accent text-2xl font-mono mb-4 block"
-      >
-        Hi, my name is ....
-      </motion.span>
-      <motion.h1 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="text-5xl md:text-7xl font-bold mb-4 tracking-tight"
-      >
-        Pradipta Bagas
-      </motion.h1>
-      <motion.h3 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-2xl md:text-3xl text-accent font-medium mb-6"
-      >
-        Front-End Developer
-      </motion.h3>
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="tracking-tight text-lg mb-5 leading-relaxed text-justify"
-      >
-        A Front-End Developer with a strong passion for building modern web interfaces focused on user experience using React, currently specialising in Web3 & Blockchain development (Solidity and Web3.js) to build decentralised applications. Currently serving as Brand Director at Shade (Stealth/Pre-Launch Project), responsible for building a visionary brand identity and strategy.
-      </motion.p>
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="flex flex-wrap gap-4 justify-center md:justify-start"
-      >
-        <a
+      {/* BACKGROUND — dramatic warm glow like the reference */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 80% at 70% 50%, rgba(180,80,10,0.35) 0%, rgba(100,20,0,0.2) 40%, transparent 70%)",
+        }}
+      />
+      {/* subtle grain */}
+      <div
+        className="absolute inset-0 z-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "128px",
+        }}
+      />
+
+      {/* TOP BAR — Open to work + Download CV */}
+      <div className="relative z-10 flex items-center justify-between px-8 pt-8 md:px-14 md:pt-10">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex items-center gap-2"
+        >
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <span className="text-xs font-semibold tracking-widest text-green-400 uppercase">
+            Open to work
+          </span>
+        </motion.div>
+
+        <motion.a
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
           href="/CV-Pradiptaa.pdf"
           download="CV-Pradipta-Bagas.pdf"
-          className="inline-flex px-8 py-3 bg-accent cursor-pointer
-                    hover:bg-red-700 text-white rounded-full font-semibold
-                    transition-all shadow-lg shadow-accent/20
-                    items-center gap-2 group"
+          className="flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-white"
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            backdropFilter: "blur(12px)",
+          }}
+          whileHover={{ scale: 1.04, background: "rgba(154,20,18,0.5)" } as any}
         >
-          <FileText size={20} />
+          <FileText size={13} />
           Download CV
-        </a>
-        <div className="flex items-center gap-4 ml-4">
-          <a href="https://github.com/PradiptaBagas" target="_blank" className="p-2 bg-accent rounded-full hover:bg-red-700 hover:text-white transition-all"><Github size={24} /></a>
-          <a href="https://www.linkedin.com/in/pradiptabagas/" target="_blank" className="p-2 bg-accent rounded-full hover:bg-red-700 hover:text-white transition-all"><Linkedin size={24} /></a>
-          <a href="https://www.instagram.com/callmediptaa?igsh=YjFodmZmc3Nyc3Jp" target="_blank" className="p-2 bg-accent rounded-full hover:bg-red-700 hover:text-white transition-all"><Instagram size={24} /></a>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
+        </motion.a>
+      </div>
 
+      {/* MAIN CONTENT */}
+      <div className="relative z-10 flex-1 flex flex-col md:flex-row items-end md:items-end justify-between px-8 md:px-14 pb-28 gap-8">
+        {/* LEFT — Big name + role */}
+        <div className="flex-1">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-[#f0a060] font-bold tracking-widest text-sm uppercase mb-3"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            Front-End Developer
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="text-white font-black leading-none mb-6"
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: "clamp(3.5rem, 10vw, 8rem)",
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Pradipta
+            <br />
+            Bagas
+          </motion.h1>
+
+          {/* CONTACT ROW */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/60"
+          >
+            <a
+              href="mailto:pradiptabagas509@gmail.com"
+              className="flex items-center gap-2 hover:text-[#f0a060] transition-colors"
+            >
+              <Mail size={13} />
+              pradiptabagas509@gmail.com
+            </a>
+            <a
+              href="https://www.linkedin.com/in/pradiptabagas/"
+              target="_blank"
+              className="flex items-center gap-2 hover:text-[#f0a060] transition-colors"
+            >
+              <Linkedin size={13} />
+              linkedin.com/in/pradiptabagas
+            </a>
+            <span className="flex items-center gap-2">
+              <MapPin size={13} />
+              Indonesia
+            </span>
+          </motion.div>
+        </div>
+
+        {/* RIGHT — Profile image (dark, dramatic) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="relative shrink-0 self-end"
+        >
+          <div
+            className="w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden"
+            style={{
+              border: "1px solid rgba(255,255,255,0.08)",
+              boxShadow:
+                "0 0 80px rgba(180,80,10,0.25), 0 0 0 1px rgba(255,255,255,0.04)",
+            }}
+          >
+            <img
+              src="/profile.png"
+              alt="Pradipta Bagas"
+              className="w-full h-full object-cover"
+              style={{ filter: "brightness(0.85) contrast(1.05)" }}
+            />
+          </div>
+          {/* warm glow behind image */}
+          <div
+            className="absolute -inset-4 -z-10 rounded-3xl blur-2xl opacity-30"
+            style={{ background: "radial-gradient(circle, #b44c0a, transparent 70%)" }}
+          />
+        </motion.div>
+      </div>
+
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-20 left-8 md:left-14 flex items-center gap-2 text-white/40 text-xs tracking-widest uppercase z-10"
+      >
+        <span>Scroll</span>
+        <div className="w-8 h-px bg-white/30" />
+      </motion.div>
+    </section>
+  );
+};
+
+// ===== PROJECTS SECTION =====
 const ProjectsSection = () => {
   const projects = [
-    { 
-      title: "Shade Official (Soon Pre Launch)", 
-      desc: "Experimental Poster Art and Apparel Brand Store by Shade.", 
+    {
+      title: "Shade Official (Soon Pre Launch)",
+      desc: "Experimental Poster Art and Apparel Brand Store by Shade.",
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
       image: "/shade.jpg",
-      link: "#"
+      link: "#",
     },
-    { 
-      title: "Shadeart", 
-      desc: "Gallery Poster by Shade.", 
+    {
+      title: "Shadeart",
+      desc: "Gallery Poster by Shade.",
       tags: ["React", "Tailwind", "TypeScript", "Vite"],
       image: "/artshade.png",
-      link: "https://shadeart.vercel.app/"
+      link: "https://shadeart.vercel.app/",
     },
-    { 
-      title: "Eltibiz Palangkaraya", 
-      desc: "Eltibiz itself is an educational institution in palangkaraya.", 
+    {
+      title: "Eltibiz Palangkaraya",
+      desc: "Educational institution website in Palangkaraya.",
       tags: ["HTML", "CSS", "JS"],
       image: "/eltibiz.jpg",
-      link: "https://eltibiz.com/"
+      link: "https://eltibiz.com/",
     },
-    { 
-      title: "Dashboard Pidsus (Privacy)", 
-      desc: "monitoring dashboard for the special criminal division of the Malang District Attorney's Office.", 
-      tags: ["HTML", "CSS","PHP","SQL"],
+    {
+      title: "Dashboard Pidsus (Private)",
+      desc: "Monitoring dashboard for the special criminal division of the Malang District Attorney's Office.",
+      tags: ["HTML", "CSS", "PHP", "SQL"],
       image: "/pidsus.jpg",
-      link: "#"
+      link: "#",
     },
   ];
 
   return (
-    <section id="projects" className="py-15 bg-black">
+    <section id="projects" className="py-20 bg-black">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeading>Projects</SectionHeading>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project, i) => (
-            
             <motion.div
               onClick={() => window.open(project.link, "_blank")}
               key={i}
@@ -287,39 +332,47 @@ const ProjectsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              // bisa tambahin hover ini hover:border-accent transition-all hover:shadow-[0_0_30px_rgba(154,20,18,0.4)]"
-              className="group relative bg-[#0a0a0a] border border-accent rounded-2xl p-6 cursor-pointer" 
+              whileHover={{ y: -4 }}
+              className="group relative rounded-2xl overflow-hidden cursor-pointer"
+              style={{
+                background: "rgba(15,15,15,0.9)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                boxShadow: "0 0 0 0 rgba(154,20,18,0)",
+                transition: "box-shadow 0.3s",
+              }}
             >
-              <div className="aspect-video bg-accent rounded-xl mb-6 overflow-hidden border border-white/5">
-                <img 
-                  src={project.image} 
+              <div className="aspect-video overflow-hidden">
+                <img
+                  src={project.image}
                   alt={project.title}
-                  className="w-full h-full" //object-cover group-hover:scale-110 transition-transform duration-500 
-                  onError={(e) => {
-                    // Fallback jika file di public tidak ditemukan
-                    e.currentTarget.src = "";
-                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75"
                 />
               </div>
-
-                  {/* //bisa tambahin group-hover:text-accent transition-colors */}
-              <h3 className="text-xl font-bold mb-2 text-accent"> 
-                {project.title}
-              </h3>
-              
-              <p className="text-lg mb-4 text-sm leading-relaxed">
-                {project.desc}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span 
-                    key={tag} 
-                    className="text-[10px] font-mono font-bold px-2 py-1 bg-accent text-lg rounded-md border border-accent/20"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div className="p-5">
+                <h3
+                  className="text-lg font-bold mb-1 text-white group-hover:text-[#f0a060] transition-colors"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
+                  {project.title}
+                </h3>
+                <p className="text-sm text-white/50 mb-4 leading-relaxed">
+                  {project.desc}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] font-bold px-2.5 py-1 rounded-md tracking-widest uppercase"
+                      style={{
+                        background: "rgba(154,20,18,0.15)",
+                        border: "1px solid rgba(154,20,18,0.3)",
+                        color: "#f0a060",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}
@@ -329,232 +382,234 @@ const ProjectsSection = () => {
   );
 };
 
+// ===== EDUCATION SECTION =====
 const EducationSection = () => (
-  <section
-    id="education"
-    className="relative py-25"
-  >
-      {/* GARIS TENGAH */}
-      <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-gradient-to-b from-transparent via-white to-transparent"/>
-      <div className="flex flex-col gap-12 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-20 items-center max-w-6xl mx-auto px-6">
-      
-      {/* TEXT LEFT */}
-      <div className="text-center md:text-right max-w-xl">
-        <motion.span
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-accent text-3xl font-bold mb-4 block text-left md:text-right"
-        >
-          University Of Muhammadiyah Malang
-        </motion.span>
+  <section id="education" className="relative py-24 bg-black">
+    <div className="max-w-6xl mx-auto px-6">
+      <SectionHeading>Education</SectionHeading>
+      <div className="relative flex flex-col md:flex-row gap-12 items-start">
+        {/* Timeline line */}
+        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
 
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-xl font-bold mb-2 text-left md:text-right"
+        {/* Left */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="md:w-1/2 md:pr-16"
         >
-          Informatics Student - Software Engineering Focus
-        </motion.h2>
+          <p className="text-[#f0a060] font-bold text-xs tracking-widest uppercase mb-2">
+            Sep 2021 – June 2025
+          </p>
+          <h3
+            className="text-2xl font-black mb-1 text-white"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            University of Muhammadiyah Malang
+          </h3>
+          <p className="text-white/50 mb-4 text-sm">
+            Informatics Engineering — Software Engineering Focus
+          </p>
+          <p className="text-white/60 leading-relaxed text-sm">
+            Studied frontend development, UI/UX design, and modern JavaScript frameworks like React. Academic experience shaped problem-solving mindset and attention to detail.
+          </p>
+        </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-accent font-bold mb-4 text-left md:text-right"
-        >
-          Sep 2021 - Juni 2025
-        </motion.p>
+        {/* Node */}
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-2 w-3 h-3 rounded-full bg-[#9A1412] ring-4 ring-[#9A1412]/20 z-10" />
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="tracking-tight text-lg leading-relaxed text-left md:text-right"
+        {/* Right Image */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="md:w-1/2 md:pl-16"
         >
-          I studied Informatics Engineering where I focused on frontend
-          development, UI/UX design, and modern JavaScript frameworks such as
-          React. My academic experience shaped my problem-solving mindset and
-          attention to detail.
-        </motion.p>
+          <div
+            className="w-full aspect-video rounded-2xl overflow-hidden"
+            style={{
+              border: "1px solid rgba(255,255,255,0.06)",
+              boxShadow: "0 0 40px rgba(154,20,18,0.2)",
+            }}
+          >
+            <img
+              src="/educationfoto.jpg"
+              alt="University"
+              className="w-full h-full object-cover brightness-75"
+            />
+          </div>
+        </motion.div>
       </div>
-
-      {/* TIMELINE NODE (TENGAH) */}
-      <div className="hidden md:flex relative z-10 items-center justify-center">
-        <div className="flex items-center justify-center w-10 h-10 rounded-full border border-accent bg-[#0a0a0a] shadow-lg">
-          <div className="w-2 h-2 bg-accent rounded-full" />
-        </div>
-      </div>
-
-      {/* IMAGE RIGHT */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        // TAMBAHKAN w-fit dan mx-auto agar glow menempel pas di gambar
-        className="relative w-fit mx-auto md:mx-0" 
-      >
-        <div className="w-72 h-72 md:w-80 md:h-80 rounded-xl overflow-hidden border-4 border-accent shadow-[0_0_30px_rgba(154,20,18,0.6)]">
-          <img
-            src="/educationfoto.jpg"
-            alt="Education"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* glow - sekarang akan pas mengikuti w-fit dari parentnya */}
-        <div className="absolute -inset-2 border border-accent/30 rounded-xl animate-pulse" />
-      </motion.div>
     </div>
   </section>
 );
 
+// ===== EXPERIENCE SECTION =====
 const ExperienceSection = () => {
   const experiences = [
-    { role: "Web Developer (Intern)", company: "Eltibiz Palangkaraya", date: "feb 2024 - july 2024", desc: "Intern Initiator dan Planner Project at Eltibiz. Where Eltibiz itself is an educational institution in palangkaraya. Here, I design projects according to needs, create project plans (timeline, budget, risks) and ensure execution according to milestones." },
-    { role: "Web Developer (Intern)", company: "Malang District Attorney's Office", date: "July 2024 - August 2024", desc: "Intern Web Developer at Office. Here, I developed a case monitoring dashboard for the special criminal division of the Malang District Attorney's Office, implementing search, filter, and real-time update features for fast and accurate data access." },
-    // { role: "Junior Developer", company: "Startup Hub", date: "2018 - 2020", desc: "Assisted in the development of core product features and maintained internal dashboards." },
+    {
+      role: "Web Developer (Intern)",
+      company: "Eltibiz Palangkaraya",
+      date: "Feb 2024 – July 2024",
+      desc: "Intern Initiator and Project Planner at Eltibiz — an educational institution in Palangkaraya. Designed projects according to needs, created project plans including timeline, budget, and risk mitigation, and ensured execution according to milestones.",
+    },
+    {
+      role: "Web Developer (Intern)",
+      company: "Malang District Attorney's Office",
+      date: "July 2024 – August 2024",
+      desc: "Developed a case monitoring dashboard for the special criminal division, implementing search, filter, and real-time update features for fast and accurate data access.",
+    },
   ];
 
   return (
-    <section id="experience" className="py-20">
-      <SectionHeading>Experience</SectionHeading>
-      <div className="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white before:to-transparent">
-        {experiences.map((exp, i) => (
-          <motion.div 
-            key={i}
-            initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
-          >
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-accent bg-[#0a0a0a] text-accent shadow group-hover:border-accent transition-colors shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <div className="w-2 h-2 bg-accent rounded-full" />
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-[#0a0a0a] border border-accent hover:border-accent transition-all">
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                <h3 className="font-bold text-lg">{exp.role}</h3>
-                <span className="text-accent font-bold text-sm">{exp.date}</span>
+    <section id="experience" className="py-20 bg-black">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeading>Experience</SectionHeading>
+        <div className="space-y-6">
+          {experiences.map((exp, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="rounded-2xl p-6 md:p-8"
+              style={{
+                background: "rgba(15,15,15,0.9)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-1">
+                <h3
+                  className="text-lg font-bold text-white"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
+                  {exp.role}
+                </h3>
+                <span className="text-[#f0a060] text-xs font-bold tracking-widest uppercase">
+                  {exp.date}
+                </span>
               </div>
-              <div className="text-accent font-bold mb-3">{exp.company}</div>
-              <p className="text-lg text-sm leading-relaxed text-justify">{exp.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+              <p className="text-[#9A1412] font-bold text-sm mb-3">{exp.company}</p>
+              <p className="text-white/50 text-sm leading-relaxed">{exp.desc}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
+// ===== SKILLS SECTION =====
 const SkillsSection = () => {
   const skills = [
-  { name: "HTML CSS", icon: <FaHtml5 />, color: "text-orange-500" },
-  { name: "React", icon: <FaReact />, color: "text-sky-400" },
-  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "text-cyan-400" },
-  { name: "Javascript", icon: <SiJavascript />, color: "text-yellow-400" },
-  { name: "Affinity", icon: <MdDesignServices />, color: "text-purple-400" },
-  { name: "TypeScript", icon: <SiTypescript />, color: "text-blue-500" },
-  { name: "Git", icon: <FaGitAlt />, color: "text-red-500" },
-  { name: "UI/UX Design", icon: <MdDesignServices />, color: "text-pink-400" },
-];
+    { name: "HTML & CSS", icon: <FaHtml5 />, color: "text-orange-500" },
+    { name: "React", icon: <FaReact />, color: "text-sky-400" },
+    { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "text-cyan-400" },
+    { name: "JavaScript", icon: <SiJavascript />, color: "text-yellow-400" },
+    { name: "TypeScript", icon: <SiTypescript />, color: "text-blue-500" },
+    { name: "Git", icon: <FaGitAlt />, color: "text-red-500" },
+    { name: "Affinity", icon: <MdDesignServices />, color: "text-purple-400" },
+    { name: "UI/UX Design", icon: <MdDesignServices />, color: "text-pink-400" },
+  ];
 
   return (
-    <section id="skills" className="py-15">
-      <SectionHeading>Skills</SectionHeading>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {skills.map((skill, i) => (
-          <motion.div
-            whileHover={{ y: -6 }}
-            className="p-6 bg-[#0a0a0a] border border-accent rounded-2xl text-center 
-                        group hover:border-accent transition-all duration-300 
-                        hover:shadow-[0_0_25px_rgba(154,20,18,0.4)] overflow-hidden flex flex-col items-center justify-center"
-          >
-          <div className={`text-5xl mb-4 mx-auto transition-transform duration-300 group-hover:scale-125 ${skill.color}`}>
-            {skill.icon}
-          </div>
-
-          <h4 className="font-semibold tracking-wide group-hover:text-accent transition-colors">
-            {skill.name}
-          </h4>
-          </motion.div>
-        ))}
+    <section id="skills" className="py-20 bg-black">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeading>Skills</SectionHeading>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {skills.map((skill, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.07 }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="p-6 rounded-2xl flex flex-col items-center text-center group"
+              style={{
+                background: "rgba(15,15,15,0.9)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                transition: "box-shadow 0.3s",
+              }}
+            >
+              <div
+                className={`text-4xl mb-3 transition-transform duration-300 group-hover:scale-125 ${skill.color}`}
+              >
+                {skill.icon}
+              </div>
+              <h4 className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">
+                {skill.name}
+              </h4>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
+// ===== ABOUT SECTION =====
 const AboutSection = () => (
-  <section id="about" className="py-20">
-    <SectionHeading>About Me</SectionHeading>
-    <div className="max-w-3xl mx-auto text-center space-y-6">
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className="space-y-6 text-white text-lg leading-relaxed "
-      >
-        <p>
-          I’m a front-end developer based in Indonesia who enjoys building clean, responsive, and user-focused web experiences. I focus on modern technologies like React and TypeScript to create fast and scalable interfaces. I’m always learning, improving, and exploring new ways to craft better digital products.
-        </p>
-        <div className="pt-4">
-          <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com"
-            target="_blank"
-            className="inline-block mt-8 px-8 py-3 border border-accent 
-                      rounded-full text-whitefont-semibold 
-                      transition-all duration-300
-                      hover:bg-accent hover:text-white 
-                      hover:shadow-[0_0_20px_rgba(154,20,18,0.6)]"
-          >
-            Let’s Collaborate
-          </a>
-        </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className="relative group"
-      >
-      </motion.div>
+  <section id="about" className="py-24 bg-black">
+    <div className="max-w-6xl mx-auto px-6">
+      <SectionHeading>About Me</SectionHeading>
+      <div className="max-w-2xl">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-white/60 text-base leading-loose mb-8"
+        >
+          I'm a front-end developer based in Indonesia who enjoys building clean, responsive, and user-focused web experiences. I focus on modern technologies like React and TypeScript to create fast and scalable interfaces. Currently specializing in Web3 & Blockchain development (Solidity and Web3.js). Always learning, improving, and exploring.
+        </motion.p>
+        <motion.a
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com"
+          target="_blank"
+          className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold tracking-wide text-white"
+          style={{
+            background: "rgba(154,20,18,0.8)",
+            border: "1px solid rgba(154,20,18,0.5)",
+          }}
+          whileHover={{ scale: 1.04, background: "rgba(154,20,18,1)" } as any}
+        >
+          <Mail size={15} />
+          Let's Collaborate
+        </motion.a>
+      </div>
     </div>
   </section>
 );
 
+// ===== FOOTER =====
 const Footer = () => (
-  <footer className="py-12 border-t border-accent text-center text-white">
-    <div className="mb-6 flex justify-center gap-6">
-      <a href="https://github.com/PradiptaBagas" target="_blank" className="hover:text-accent transition-colors"><Github size={20} /></a>
-      <a href="https://www.linkedin.com/in/pradiptabagas/" target="_blank" className="hover:text-accent transition-colors"><Linkedin size={20} /></a>
-      <a href="https://www.instagram.com/callmediptaa?igsh=YjFodmZmc3Nyc3Jp" target="_blank" className="hover:text-accent transition-colors"><Instagram size={20} /></a>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com"
-            target="_blank" className="hover:text-accent transition-colors"><Mail size={20} /></a>
+  <footer
+    className="pb-28 pt-12 text-center text-white/30 text-sm"
+    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+  >
+    <div className="mb-4 flex justify-center gap-5">
+      <a href="https://github.com/PradiptaBagas" target="_blank" className="hover:text-white transition-colors"><Github size={18} /></a>
+      <a href="https://www.linkedin.com/in/pradiptabagas/" target="_blank" className="hover:text-white transition-colors"><Linkedin size={18} /></a>
+      <a href="https://www.instagram.com/callmediptaa" target="_blank" className="hover:text-white transition-colors"><Instagram size={18} /></a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas509@gmail.com" target="_blank" className="hover:text-white transition-colors"><Mail size={18} /></a>
     </div>
-    <p>© {new Date().getFullYear()} by Pradipta Bagas Yegantara</p>
+    <p>© {new Date().getFullYear()} Pradipta Bagas Yegantara</p>
   </footer>
 );
 
+// ===== SCROLL TO TOP =====
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    const toggle = () => setIsVisible(window.pageYOffset > 300);
+    window.addEventListener("scroll", toggle);
+    return () => window.removeEventListener("scroll", toggle);
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <AnimatePresence>
@@ -563,14 +618,28 @@ const ScrollToTop = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 bg-accent text-white rounded-full shadow-lg shadow-accent/20 hover:bg-red-700 cursor-pointer transition-all z-50"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-24 right-6 p-3 text-white rounded-full z-50"
+          style={{
+            background: "rgba(154,20,18,0.8)",
+            border: "1px solid rgba(154,20,18,0.4)",
+          }}
         >
-          <ChevronUp size={24} />
+          <ChevronUp size={20} />
         </motion.button>
       )}
     </AnimatePresence>
   );
 };
 
-export { Navbar, HomeSection, ProjectsSection, EducationSection, ExperienceSection, SkillsSection, AboutSection, Footer, ScrollToTop };
+export {
+  Dock,
+  HomeSection,
+  ProjectsSection,
+  EducationSection,
+  ExperienceSection,
+  SkillsSection,
+  AboutSection,
+  Footer,
+  ScrollToTop,
+};
