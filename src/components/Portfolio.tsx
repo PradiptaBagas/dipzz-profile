@@ -12,9 +12,9 @@ import {
   FileText,
   ChevronUp,
   MapPin,
+  ExternalLink,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { MoreVertical } from "lucide-react";
 import { FaReact, FaGitAlt, FaHtml5 } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss, SiJavascript } from "react-icons/si";
 import { MdDesignServices } from "react-icons/md";
@@ -124,24 +124,24 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   </motion.h2>
 );
 
-// ===== HOME SECTION (Tyrone Brooks inspired) =====
+// ===== HOME SECTION (Diperbagus sesuai Gambar 1) =====
 const HomeSection = () => {
   return (
     <section
       id="home"
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black"
     >
-      {/* BACKGROUND — dramatic warm glow like the reference */}
+      {/* BACKGROUND — dramatic warm glow, cleaner gradient */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 80% at 70% 50%, rgba(180,80,10,0.35) 0%, rgba(100,20,0,0.2) 40%, transparent 70%)",
+            "radial-gradient(circle at 75% 50%, rgba(200,80,10,0.4) 0%, rgba(120,30,0,0.15) 35%, transparent 65%)",
         }}
       />
-      {/* subtle grain */}
+      {/* fine grain */}
       <div
-        className="absolute inset-0 z-0 opacity-[0.04]"
+        className="absolute inset-0 z-0 opacity-[0.03]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
@@ -182,27 +182,30 @@ const HomeSection = () => {
         </motion.a>
       </div>
 
-      {/* PHOTO — right side, full height, flush to edge */}
+      {/* PHOTO — refined with better mask & blending */}
       <motion.div
         initial={{ opacity: 0, x: 60 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3, duration: 0.9 }}
         className="absolute right-0 top-0 bottom-0 z-0 hidden md:block"
-        style={{ width: "40%" }}
+        style={{ width: "42%" }}
       >
         <img
           src="/profile1.jpg"
           alt="Pradipta Bagas"
           className="w-full h-full object-cover object-top"
-          style={{ filter: "brightness(0.7) contrast(1.1)" }}
+          style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.1)" }}
         />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #000 0%, transparent 35%)" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, transparent 25%)" }} />
-        <div className="absolute inset-0 opacity-20" style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(180,80,10,0.8), transparent 60%)" }} />
+        {/* Soft feather masks for a clean integration */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #000 0%, transparent 40%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, transparent 15%)" }} />
+        
+        {/* Subtle, cleaner backlighting */}
+        <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(ellipse at 65% 45%, rgba(220,100,20,0.7), transparent 55%)" }} />
       </motion.div>
 
       {/* LEFT TEXT — vertically centered */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-14 pb-28 pt-4 md:max-w-[60%]">
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-14 pb-28 pt-4 md:max-w-[58%]">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -243,8 +246,9 @@ const HomeSection = () => {
 
       {/* Mobile photo */}
       <div className="md:hidden relative z-10 px-8 pb-6">
-        <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
           <img src="/profile1.jpg" alt="Pradipta Bagas" className="w-full h-full object-cover" style={{ filter: "brightness(0.8)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent 40%)" }} />
         </div>
       </div>
 
@@ -262,7 +266,7 @@ const HomeSection = () => {
   );
 };
 
-// ===== PROJECTS SECTION — horizontal carousel, movie poster style =====
+// ===== PROJECTS SECTION — landscape carousel (Gambar 2 diperbagus seperti Gambar 3) =====
 const ProjectsSection = () => {
   const projects = [
     {
@@ -305,95 +309,126 @@ const ProjectsSection = () => {
 
   const [activeIndex, setActiveIndex] = React.useState(1);
 
+  // Landscape card dimensions
+  const cardWidth = 480; 
+  const cardHeight = 270;
+  const cardGap = 40;
+
   return (
-    <section id="projects" className="py-20 bg-black overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 mb-10">
+    <section id="projects" className="py-24 bg-black overflow-hidden relative">
+        
+      {/* Background glow behind carousel */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] blur-[120px] opacity-20"
+        style={{
+          background: "radial-gradient(circle, rgba(154,20,18,0.7) 0%, rgba(180,80,10,0.3) 100%)",
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto px-6 mb-16 relative z-10">
         <SectionHeading>Projects</SectionHeading>
       </div>
 
-      {/* CAROUSEL */}
-      <div className="relative flex items-center justify-center" style={{ height: "460px" }}>
+      {/* CAROUSEL CONTROLLER */}
+      <div className="relative flex items-center justify-center relative z-10" style={{ height: `${cardHeight + 60}px` }}>
         {projects.map((project, i) => {
           const offset = i - activeIndex;
           const isActive = i === activeIndex;
           const isAdjacent = Math.abs(offset) === 1;
-          const isFar = Math.abs(offset) >= 2;
+          const isVisible = Math.abs(offset) <= 2; // Only show 5 at once for clean look
+
+          if (!isVisible) return null;
+
+          // X position calculation for centering
+          const xPos = offset * (cardWidth + cardGap);
 
           return (
             <motion.div
               key={i}
-              onClick={() => {
-                if (isActive) {
-                  if (project.link !== "#") window.open(project.link, "_blank");
-                } else {
-                  setActiveIndex(i);
-                }
-              }}
+              onClick={() => setActiveIndex(i)}
               animate={{
-                scale: isActive ? 1 : isAdjacent ? 0.82 : 0.68,
-                x: offset * (isActive ? 0 : isAdjacent ? 260 : 480),
-                opacity: isFar ? 0.3 : isAdjacent ? 0.65 : 1,
-                zIndex: isActive ? 10 : isAdjacent ? 5 : 1,
+                scale: isActive ? 1 : 0.85,
+                x: xPos,
+                opacity: isActive ? 1 : isAdjacent ? 0.6 : 0.2,
+                zIndex: isActive ? 10 : 5,
               }}
-              transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="absolute cursor-pointer select-none"
-              style={{ width: "260px", height: "400px" }}
+              transition={{ type: "spring", stiffness: 220, damping: 26 }}
+              className="absolute cursor-pointer select-none group"
+              style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
             >
+              {/* Card Container with Landscape Aspect Ratio */}
               <div
                 className="relative w-full h-full rounded-2xl overflow-hidden"
                 style={{
-                  border: isActive ? "1px solid rgba(154,20,18,0.6)" : "1px solid rgba(255,255,255,0.06)",
+                  border: isActive ? "2px solid rgba(154,20,18,0.8)" : "1px solid rgba(255,255,255,0.08)",
                   boxShadow: isActive
-                    ? "0 30px 80px rgba(0,0,0,0.8), 0 0 40px rgba(154,20,18,0.3)"
-                    : "0 10px 30px rgba(0,0,0,0.5)",
+                    ? "0 40px 100px rgba(0,0,0,0.9), 0 0 50px rgba(154,20,18,0.4)"
+                    : "0 10px 40px rgba(0,0,0,0.5)",
                 }}
               >
-                <img
+                {/* Background Image with slight zoom effect on hover if active */}
+                <motion.img
                   src={project.image}
                   alt={project.title}
                   className="absolute inset-0 w-full h-full object-cover"
-                  style={{ filter: isActive ? "brightness(0.75)" : "brightness(0.45)" }}
+                  style={{ filter: isActive ? "brightness(0.7)" : "brightness(0.35)" }}
+                  whileHover={isActive ? { scale: 1.03 } : {}}
+                  transition={{ duration: 0.4 }}
                 />
+                
+                {/* Dark gradients for text contrast */}
                 <div
                   className="absolute inset-0"
-                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 100%)" }}
+                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)" }}
+                />
+                <div
+                    className="absolute top-0 left-0 right-0 h-24"
+                    style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)" }}
                 />
 
-                {isActive && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-4 left-4 right-4 flex items-center justify-between"
-                  >
-                    <span
-                      className="text-[10px] font-black tracking-widest uppercase px-2 py-1 rounded-md"
+                {/* Top Info (Visible on active or hover) */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isActive ? 1 : 0 }}
+                    className="absolute top-4 left-5 right-5 flex items-center justify-between"
+                >
+                    <span className="text-[11px] font-bold text-white/60">{project.year}</span>
+                    {project.link !== "#" && (
+                        <a href={project.link} target="_blank" className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+                            <ExternalLink size={13} className="text-white/80"/>
+                        </a>
+                    )}
+                </motion.div>
+
+                {/* Bottom Content Area */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  {/* Tag on top of title */}
+                  <span
+                      className="inline-block text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md mb-2.5"
                       style={{ background: "rgba(154,20,18,0.9)", color: "#fff" }}
                     >
                       {project.tags[0]}
-                    </span>
-                    <span className="text-[11px] font-bold text-white/50">{project.year}</span>
-                  </motion.div>
-                )}
-
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-[#f0a060] mb-1">
-                    {project.subtitle}
-                  </p>
+                  </span>
+                  
                   <h3
-                    className="text-white font-black leading-tight mb-2"
-                    style={{ fontFamily: "'Syne', sans-serif", fontSize: isActive ? "1.25rem" : "1rem" }}
+                    className="text-white font-black leading-tight mb-2.5"
+                    style={{ fontFamily: "'Syne', sans-serif", fontSize: isActive ? "1.6rem" : "1.3rem" }}
                   >
                     {project.title}
                   </h3>
+                  
+                  {/* Expanded description (visible only on active) */}
                   {isActive && (
-                    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                      <p className="text-white/50 text-xs leading-relaxed mb-3">{project.desc}</p>
-                      <div className="flex flex-wrap gap-1.5">
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                      <p className="text-white/70 text-sm leading-relaxed mb-4 line-clamp-2">{project.desc}</p>
+                      
+                      {/* Tech Stacks */}
+                      <div className="flex flex-wrap gap-2">
                         {project.tags.slice(1).map((tag) => (
                           <span
                             key={tag}
-                            className="text-[9px] font-bold px-2 py-0.5 rounded tracking-widest uppercase"
-                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.6)" }}
+                            className="text-[10px] font-bold px-2.5 py-1 rounded tracking-widest uppercase"
+                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)" }}
                           >
                             {tag}
                           </span>
@@ -408,17 +443,18 @@ const ProjectsSection = () => {
         })}
       </div>
 
-      {/* Dots navigation */}
-      <div className="flex justify-center gap-2 mt-8">
+      {/* Dots navigation — refined smaller dots */}
+      <div className="flex justify-center gap-2.5 mt-10 relative z-10">
         {projects.map((_, i) => (
           <button
             key={i}
             onClick={() => setActiveIndex(i)}
             className="rounded-full transition-all duration-300"
             style={{
-              width: i === activeIndex ? "24px" : "8px",
-              height: "8px",
-              background: i === activeIndex ? "#9A1412" : "rgba(255,255,255,0.2)",
+              width: i === activeIndex ? "28px" : "10px",
+              height: "10px",
+              background: i === activeIndex ? "#9A1412" : "rgba(255,255,255,0.15)",
+              border: i === activeIndex ? "2px solid rgba(255,255,255,0.1)" : "none"
             }}
           />
         ))}
