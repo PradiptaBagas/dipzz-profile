@@ -124,24 +124,51 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   </motion.h2>
 );
 
-// ===== HOME SECTION (Diperbagus sesuai Gambar 1) =====
+// ===== HOME SECTION (Refined: Full Background Cinematic Style) =====
 const HomeSection = () => {
   return (
     <section
       id="home"
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black"
     >
-      {/* BACKGROUND — dramatic warm glow, cleaner gradient */}
+      {/* 1. GAMBAR SEBAGAI FULL BACKGROUND */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/profile1.jpg"
+          alt="Pradipta Bagas Background"
+          className="w-full h-full object-cover object-center md:object-right"
+          style={{ filter: "brightness(0.6) contrast(1.1) saturate(1.05)" }}
+        />
+        
+        {/* 2. OVERLAY GRADASI (Menghilangkan garis potong & menjamin teks kiri terbaca) */}
+        {/* Gradasi dari hitam pekat di kiri, memudar ke transparan di kanan */}
+        <div 
+          className="absolute inset-0 hidden md:block" 
+          style={{ 
+            background: "linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 35%, rgba(0,0,0,0.4) 65%, transparent 100%)" 
+          }} 
+        />
+        
+        {/* Gradasi tambahan dari bawah ke atas agar menyatu dengan section berikutnya */}
+        <div 
+          className="absolute inset-0" 
+          style={{ 
+            background: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 20%, transparent 100%)" 
+          }} 
+        />
+
+        {/* 3. DRAMATIC GLOW (Efek pendaran cahaya hangat di latar belakang) */}
+        <div
+          className="absolute inset-0 opacity-30 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 75% 45%, rgba(220,100,20,0.6) 0%, transparent 60%)",
+          }}
+        />
+      </div>
+
+      {/* subtle grain (Efek tekstur film tipis) */}
       <div
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(circle at 75% 50%, rgba(200,80,10,0.4) 0%, rgba(120,30,0,0.15) 35%, transparent 65%)",
-        }}
-      />
-      {/* fine grain */}
-      <div
-        className="absolute inset-0 z-0 opacity-[0.03]"
+        className="absolute inset-0 z-10 opacity-[0.02] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
@@ -150,7 +177,7 @@ const HomeSection = () => {
       />
 
       {/* TOP BAR — Open to work + Download CV */}
-      <div className="relative z-10 flex items-center justify-between px-8 pt-8 md:px-14 md:pt-10">
+      <div className="relative z-20 flex items-center justify-between px-8 pt-8 md:px-14 md:pt-10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -182,30 +209,8 @@ const HomeSection = () => {
         </motion.a>
       </div>
 
-      {/* PHOTO — refined with better mask & blending */}
-      <motion.div
-        initial={{ opacity: 0, x: 60 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3, duration: 0.9 }}
-        className="absolute right-0 top-0 bottom-0 z-0 hidden md:block"
-        style={{ width: "42%" }}
-      >
-        <img
-          src="/profile1.jpg"
-          alt="Pradipta Bagas"
-          className="w-full h-full object-cover object-top"
-          style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.1)" }}
-        />
-        {/* Soft feather masks for a clean integration */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #000 0%, transparent 40%)" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, transparent 15%)" }} />
-        
-        {/* Subtle, cleaner backlighting */}
-        <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(ellipse at 65% 45%, rgba(220,100,20,0.7), transparent 55%)" }} />
-      </motion.div>
-
-      {/* LEFT TEXT — vertically centered */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-14 pb-28 pt-4 md:max-w-[58%]">
+      {/* LEFT TEXT — Sekarang berdiri anggun di atas full background */}
+      <div className="relative z-20 flex-1 flex flex-col justify-center px-8 md:px-14 pb-28 pt-4 md:max-w-[65%]">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -244,12 +249,10 @@ const HomeSection = () => {
         </motion.div>
       </div>
 
-      {/* Mobile photo */}
-      <div className="md:hidden relative z-10 px-8 pb-6">
-        <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-          <img src="/profile1.jpg" alt="Pradipta Bagas" className="w-full h-full object-cover" style={{ filter: "brightness(0.8)" }} />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent 40%)" }} />
-        </div>
+      {/* Mobile view override (Kondisi saat layar HP, gambar otomatis menyesuaikan) */}
+      <div className="md:hidden relative z-20 px-8 pb-6">
+        {/* Di mobile kita biarkan teks mendapat ruang ekstra agar tidak bertabrakan buruk */}
+        <div className="h-4" />
       </div>
 
       {/* Scroll hint */}
@@ -257,7 +260,7 @@ const HomeSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.4 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-20 left-8 md:left-14 flex items-center gap-2 text-white/40 text-xs tracking-widest uppercase z-10"
+        className="absolute bottom-20 left-8 md:left-14 flex items-center gap-2 text-white/40 text-xs tracking-widest uppercase z-20"
       >
         <span>Scroll</span>
         <div className="w-8 h-px bg-white/30" />
