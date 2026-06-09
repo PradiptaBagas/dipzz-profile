@@ -288,18 +288,18 @@ const ProjectsSection = ({ isOpen, onClose }: WindowSectionProps) => {
         <MacOsFinder title="Projects" onClose={onClose}>
           <SectionHeading>Projects</SectionHeading>
           
-          {/* 1. AREA CAROUSEL ATAS */}
-          <div className="relative w-full flex items-center justify-center min-h-[230px] mt-2 overflow-visible">
+          {/* 1. AREA CAROUSEL ATAS: Ditambahkan overflow-x-hidden agar sisa card di kanan-kiri tidak membuat window bocor/bisa di-scroll */}
+          <div className="relative w-full flex items-center justify-center min-h-[230px] mt-2 overflow-x-hidden px-4">
             {/* Tombol Navigasi Kiri */}
             <button 
               onClick={() => setActiveIndex(p => p === 0 ? projects.length - 1 : p - 1)} 
-              className="absolute left-[-10px] z-30 p-2.5 rounded-full text-white/70 hover:text-white bg-[#161616]/80 hover:bg-[#9A1412] border border-white/10 backdrop-blur transition-all duration-200 shadow-lg"
+              className="absolute left-[5px] z-30 p-2.5 rounded-full text-white/70 hover:text-white bg-[#161616]/80 hover:bg-[#9A1412] border border-white/10 backdrop-blur transition-all duration-200 shadow-lg cursor-pointer"
             >
               <ChevronLeft size={18} />
             </button>
 
-            {/* Slider Track */}
-            <div className="relative w-full h-[210px] flex items-center justify-center overflow-visible">
+            {/* Slider Track: Ditambahkan overflow-hidden untuk memotong rendering elemen luar */}
+            <div className="relative w-full h-[210px] flex items-center justify-center overflow-hidden">
               {projects.map((project, i) => {
                 const offset = i - activeIndex;
                 const isActive = i === activeIndex;
@@ -329,8 +329,8 @@ const ProjectsSection = ({ isOpen, onClose }: WindowSectionProps) => {
                     <div className="absolute top-3 left-4 right-4 flex items-center justify-between text-[10px] text-white/40 font-bold tracking-wider">
                       <span>{project.year}</span>
                       <span className="bg-[#9A1412]/20 border border-[#9A1412]/40 px-2 py-0.5 rounded-md text-[9px] uppercase text-[#FFF] font-bold">
-                      {project.tags[0]}
-                    </span>
+                        {project.tags[0]}
+                      </span>
                     </div>
 
                     <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -345,7 +345,7 @@ const ProjectsSection = ({ isOpen, onClose }: WindowSectionProps) => {
             {/* Tombol Navigasi Kanan */}
             <button 
               onClick={() => setActiveIndex(p => p === projects.length - 1 ? 0 : p + 1)} 
-              className="absolute right-[-10px] z-30 p-2.5 rounded-full text-white/70 hover:text-white bg-[#161616]/80 hover:bg-[#9A1412] border border-white/10 backdrop-blur transition-all duration-200 shadow-lg"
+              className="absolute right-[5px] z-30 p-2.5 rounded-full text-white/70 hover:text-white bg-[#161616]/80 hover:bg-[#9A1412] border border-white/10 backdrop-blur transition-all duration-200 shadow-lg cursor-pointer"
             >
               <ChevronLeft size={18} className="rotate-180" />
             </button>
