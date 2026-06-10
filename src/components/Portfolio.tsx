@@ -17,8 +17,8 @@ import {
   Pointer,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaReact, FaGitAlt, FaHtml5, FaPhp } from "react-icons/fa";
-import { SiTypescript, SiTailwindcss, SiJavascript } from "react-icons/si";
+import { FaReact, FaGitAlt, FaHtml5, FaPhp, FaRocket } from "react-icons/fa";
+import { SiTypescript, SiTailwindcss, SiJavascript, SiGooglegemini, SiAnthropic } from "react-icons/si";
 import { MdDesignServices } from "react-icons/md";
 import MacOsFinder from './MacOsFinder';
 import { FaGithub, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa'; 
@@ -564,6 +564,15 @@ const SkillsSection = ({ isOpen, onClose }: WindowSectionProps) => {
         { name: "UI/UX Design", icon: <MdDesignServices />, color: "text-pink-400", glow: "group-hover:border-pink-500/30 group-hover:shadow-[0_0_15px_rgba(244,114,182,0.15)]", level: 80 },
         { name: "Affinity Suite", icon: <MdDesignServices />, color: "text-purple-400", glow: "group-hover:border-purple-500/30 group-hover:shadow-[0_0_15px_rgba(192,132,252,0.15)]", level: 75 },
         { name: "Git & GitHub", icon: <FaGitAlt />, color: "text-red-500", glow: "group-hover:border-red-500/30 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]", level: 80 },
+      ]
+    },
+    {
+      // KATEGORI BARU YANG KAMU MINTA
+      category: "AI & Intelligent Tools",
+      items: [
+        { name: "Gemini", icon: <SiGooglegemini />, color: "text-blue-400", glow: "group-hover:border-blue-400/30 group-hover:shadow-[0_0_15px_rgba(96,165,250,0.15)]", level: 90 },
+        { name: "Claude", icon: <SiAnthropic />, color: "text-amber-600", glow: "group-hover:border-amber-600/30 group-hover:shadow-[0_0_15px_rgba(217,119,6,0.15)]", level: 85 },
+        { name: "Antigravity", icon: <FaRocket />, color: "text-lime-400", glow: "group-hover:border-lime-400/30 group-hover:shadow-[0_0_15px_rgba(163,230,53,0.15)]", level: 80 },
       ]
     }
   ];
