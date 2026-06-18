@@ -206,7 +206,7 @@ const HomeSection = () => {
         
         {/* Front-End Developer */}
         <p className="text-white font-bold md:text-[#9A1412] tracking-widest text-xs md:text-sm uppercase mb-3 md:mb-4" style={{ fontFamily: "'Syne', sans-serif" }}>
-          Front-End Developer
+          Front-End Developer & QA Engineer
         </p>
         
         {/* Nama Besar: leading-tight & width disesuaikan agar simetris sempurna di tengah screen HP */}
