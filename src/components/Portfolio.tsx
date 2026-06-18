@@ -18,8 +18,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaReact, FaGitAlt, FaHtml5, FaPhp, FaRocket } from "react-icons/fa";
-import { SiTypescript, SiTailwindcss, SiJavascript, SiGooglegemini, SiAnthropic } from "react-icons/si";
-import { MdDesignServices } from "react-icons/md";
+import { SiTypescript, SiTailwindcss, SiJavascript, SiGooglegemini, SiAnthropic, SiJira, SiPostman } from "react-icons/si";
 import MacOsFinder from './MacOsFinder';
 import { FaGithub, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa'; 
 
@@ -559,10 +558,10 @@ const SkillsSection = ({ isOpen, onClose }: WindowSectionProps) => {
       ]
     },
     {
-      category: "Design & Tools",
+      category: "Tools & Software",
       items: [
-        { name: "UI/UX Design", icon: <MdDesignServices />, color: "text-pink-400", glow: "group-hover:border-pink-500/30 group-hover:shadow-[0_0_15px_rgba(244,114,182,0.15)]", level: 80 },
-        { name: "Affinity Suite", icon: <MdDesignServices />, color: "text-purple-400", glow: "group-hover:border-purple-500/30 group-hover:shadow-[0_0_15px_rgba(192,132,252,0.15)]", level: 75 },
+        { name: "Jira", icon: <SiJira />, color: "text-blue-500", glow: "group-hover:border-blue-500/30 group-hover:shadow-[0_0_15px_rgba(38,132,255,0.15)]", level: 80 },
+        { name: "Postman", icon: <SiPostman />, color: "text-orange-500", glow: "group-hover:border-orange-500/30 group-hover:shadow-[0_0_15px_rgba(255,108,55,0.15)]", level: 85 },
         { name: "Git & GitHub", icon: <FaGitAlt />, color: "text-red-500", glow: "group-hover:border-red-500/30 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]", level: 80 },
       ]
     },
