@@ -196,7 +196,7 @@ const HomeSection = () => {
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           <span className="text-[10px] md:text-xs font-semibold tracking-widest text-green-400 uppercase">Open to work</span>
         </div>
-        <a href="/CV-Pradiptaa.pdf" download="CV-Pradipta-Bagas.pdf" className="flex items-center gap-1.5 px-4 py-2 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase text-white bg-white/5 border border-white/10 backdrop-blur hover:bg-[#9A1412]/50 transition-all whitespace-nowrap">
+        <a href="/CV-PradiptaBagas.pdf" download="CV-Pradipta-Bagas.pdf" className="flex items-center gap-1.5 px-4 py-2 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase text-white bg-white/5 border border-white/10 backdrop-blur hover:bg-[#9A1412]/50 transition-all whitespace-nowrap">
           <FileText size={12} /> Download CV
         </a>
       </div>
