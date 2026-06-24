@@ -215,9 +215,9 @@ const HomeSection = () => {
         
         {/* Kontak: Menggunakan items-center di mobile agar icon dan link email/linkedin rapi berjejer ke bawah di tengah */}
         <div className="flex flex-col items-center md:items-start gap-2.5 md:gap-3 text-xs md:text-sm text-white font-bold md:text-white/60 md:font-normal break-all w-full">
-          <a href="mailto:pradiptabagas10@gmail.com" className="flex items-center gap-2 hover:text-[#9A1412] transition-colors w-fit">
+          <a href="mailto:Pradiptabagas509@gmail.com" className="flex items-center gap-2 hover:text-[#9A1412] transition-colors w-fit">
             <Mail size={13} className="shrink-0 text-white md:text-white/60" />
-            pradiptabagas10@gmail.com
+            Pradiptabagas509@gmail.com
           </a>
           <a href="https://www.linkedin.com/in/pradiptabagas/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-[#9A1412] transition-colors w-fit">
             <Linkedin size={13} className="shrink-0 text-white md:text-white/60" />
@@ -705,7 +705,7 @@ const AboutSection = ({ isOpen, onClose }: WindowSectionProps) => {
 
               {/* Tombol Email Hubungi Saya */}
               <a 
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=pradiptabagas10@gmail.com" 
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=Pradiptabagas509@gmail.com" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#9A1412] hover:bg-[#b51c19] transition-all shadow-[0_4px_12px_rgba(154,20,18,0.2)] hover:shadow-[0_4px_20px_rgba(154,20,18,0.4)] hover:-translate-y-0.5 active:translate-y-0"
